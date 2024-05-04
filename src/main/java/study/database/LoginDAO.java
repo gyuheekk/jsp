@@ -132,7 +132,7 @@ public class LoginDAO {
 		} catch (SQLException e) {
 			System.out.println("SQL 오류 : " + e.getMessage());
 		} finally {
-			rsClose();
+			pstmtClose();
 		}
 		return res;
 	}

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/study/password/PassCheck")
 public class PassCheck extends HttpServlet {
 	@Override
+	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String mid = request.getParameter("mid")==null ? "" : request.getParameter("mid");
 		String pwd = request.getParameter("pwd")==null ? "" : request.getParameter("pwd");
@@ -45,6 +46,7 @@ public class PassCheck extends HttpServlet {
 			long intPwd;
 			String strPwd = "";
 			// 입력받은 암호를 한문자씩 꺼내어서 아스키코드로 변형 뒤, 문자로 누적처리해서 만들어준다.
+			pwd = pwd.toUpperCase();
 			for(int i=0; i<pwd.length(); i++) {
 				intPwd = (long) pwd.charAt(i);
 				strPwd += intPwd;
@@ -67,7 +69,7 @@ public class PassCheck extends HttpServlet {
 			
 			// 다시 로그인 할 때 DB의 비밀번호를 가져와서 복호화 시켜준다.
 			long decPwd;
-			intPwd = Long.parseLong(strPwd.substring(8));
+			intPwd = Long.parseLong(strPwd.substring(9));
 			decPwd = intPwd ^ key;
 			System.out.println("디코딩(복호화)된 비밀번호 : " + decPwd);
 			
@@ -84,7 +86,8 @@ public class PassCheck extends HttpServlet {
 			}
 			System.out.println();
 			System.out.println("최종 변환된 비밀번호(원본 비번과 비교하세요) : " + result);
-			
 		}
+		
+		response.sendRedirect(request.getContextPath()+"/study/password/passCheck.jsp?msg="+"OK");
 	}
 }

@@ -29,6 +29,11 @@
 			location.href = '${ctp}/study/database/LoginList?sortKey='+sortKey;
 		}
   </script>
+  <style>
+  	.p {
+  		font-size: 25px;	
+  	}
+  </style>
 </head>
 <body>
 <jsp:include page="/include/header.jsp" />
@@ -37,15 +42,15 @@
 <div class="container">
   <h2 class="text-center">회 원 메 인 방</h2>
   <hr/>
-  <div class="text-right mb-3">
+  <div class="p text-right mb-3">
   	<c:if test="${pag > 1}">
-   		<a href="${ctp}/study/database/LoginList?pag=1" title="첫페이지">◁</a>
-   		<a href="${ctp}/study/database/LoginList?pag=${pag-1}" title="이전페이지">◀</a>
+   		<a href="${ctp}/study/database/LoginList?pag=1" title="첫페이지"><i class="fa-solid fa-angles-left"></i></a>
+   		<a href="${ctp}/study/database/LoginList?pag=${pag-1}" title="이전페이지"><i class="fa-solid fa-angle-left"></i></a>
    	</c:if>
    	${pag}/${totPage}
    	<c:if test="${pag < totPage}">
-   		<a href="${ctp}/study/database/LoginList?pag=${pag+1}" title="다음페이지">▶</a>
-   		<a href="${ctp}/study/database/LoginList?pag=${totPage}" title="마지막페이지">▷</a>
+   		<a href="${ctp}/study/database/LoginList?pag=${pag+1}" title="다음페이지"><i class="fa-solid fa-angle-right"></i></a>
+   		<a href="${ctp}/study/database/LoginList?pag=${totPage}" title="마지막페이지"><i class="fa-solid fa-angles-right"></i></a>
    	</c:if>
   </div>
   <div class="row">

@@ -33,10 +33,15 @@
   	}
   	
   	function warningCheck() {
-    	let ans = alert("개 사진 그만 올려");
+    	let ans = alert("적당히 좀 해 제발 ;");
 		}
   	
   </script>
+  <style>
+  	.p {
+  		font-size: 25px;	
+  	}
+  </style>
 </head>
 <body>
 <jsp:include page="/include/header.jsp" />
@@ -48,19 +53,17 @@
     <tr>
       <!-- <td><a href="#" class="btn btn-primary">관리자</a></td> -->
       <td>
-      	<%-- <a href="${ctp}/guest/guestInput.jsp" class="btn btn-success">글쓰기</a> --%>
-      	<c:if test="${pageContext.request.remoteAddr != '192.168.50.52'}"><a href="${ctp}/guest/guestInput.jsp" class="btn btn-success">글쓰기</a></c:if>
-	      <c:if test="${pageContext.request.remoteAddr == '192.168.50.52'}"><a href="javascript:warningCheck()" class="btn btn-success">글쓰기</a></c:if>
+      	<a href="${ctp}/guest/guestInput.jsp" class="btn btn-success">글쓰기</a>
 			</td>	    
-      <td class="text-right">
+      <td class="p text-right">
       	<c:if test="${pag > 1}">
-      		<a href="${ctp}/GuestList?pag=1" title="첫페이지">◁</a>
-      		<a href="${ctp}/GuestList?pag=${pag-1}" title="이전페이지">◀</a>
+      		<a href="${ctp}/GuestList?pag=1" title="첫페이지"><i class="fa-solid fa-angles-left"></i></a>
+      		<a href="${ctp}/GuestList?pag=${pag-1}" title="이전페이지"><i class="fa-solid fa-angle-left"></i></a>
       	</c:if>
       	${pag}/${totPage}
       	<c:if test="${pag < totPage}">
-      		<a href="${ctp}/GuestList?pag=${pag+1}" title="다음페이지">▶</a>
-      		<a href="${ctp}/GuestList?pag=${totPage}" title="마지막페이지">▷</a>
+      		<a href="${ctp}/GuestList?pag=${pag+1}" title="다음페이지"><i class="fa-solid fa-angle-right"></i></a>
+      		<a href="${ctp}/GuestList?pag=${totPage}" title="마지막페이지"><i class="fa-solid fa-angles-right"></i></a>
       	</c:if>
      	</td>
     </tr>
