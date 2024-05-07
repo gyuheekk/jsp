@@ -32,10 +32,6 @@
   		location.href = "${ctp}/GuestList?pag=${pag}&pageSize="+pageSize;
   	}
   	
-  	function warningCheck() {
-    	let ans = alert("적당히 좀 해 제발 ;");
-		}
-  	
   </script>
   <style>
   	.p {

@@ -6,14 +6,6 @@
   <h1><font color="white">Guuue's first homepage</font></h1>
   <p><font color="white">(본 사이트는 반응형으로 제작되었습니다.)</font></p>
 </div>
-<!-- <style>
- h1 {
- 	font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-style: normal;
- }
- 
-</style> -->
 <script>
 	$(function() {
 		$("#header").on("click",function(){
