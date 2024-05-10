@@ -26,7 +26,7 @@ public class Test4Controller extends HttpServlet {
 		}
 		else if(com.equals("list")) {
 			command = new Test4ListCommand();
-			command.execute(request, response);
+			command.execute(request, response); // 컨트롤러로 요청되어온 모든 자료를 command객체로 이양(양도)한다.
 			// viewPage = "/WEB-INF/study2/mapping/list.jsp";
 			viewPage += "list.jsp";
 		}
@@ -37,7 +37,7 @@ public class Test4Controller extends HttpServlet {
 		else if(com.equals("inputOk")) {
 			command = new Test4InputOkCommand();
 			command.execute(request, response);
-			viewPage = "/WEB-INF/common/message.jsp";
+			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("update")) {
 			command = new Test4UpdateCommand();
@@ -47,7 +47,7 @@ public class Test4Controller extends HttpServlet {
 		else if(com.equals("updateOk")) {
 			command = new Test4UpdateOkCommand();
 			command.execute(request, response);
-			viewPage = "/WEB-INF/common/message.jsp";
+			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("delete")) {
 			command = new Test4DeleteCommand();
@@ -57,12 +57,17 @@ public class Test4Controller extends HttpServlet {
 		else if(com.equals("deleteOk")) {
 			command = new Test4DeleteOkCommand();
 			command.execute(request, response);
-			viewPage += "delete.jsp";
+			viewPage = "/include/message.jsp";
 		}
 		else if(com.equals("search")) {
-			command = new Test4SearchCommand();
-			command.execute(request, response);
+//			command = new Test4SearchCommand();
+//			command.execute(request, response);
 			viewPage += "search.jsp";
+		}
+		else if(com.equals("searchOk")) {
+			command = new Test4SearchOkCommand();
+			command.execute(request, response);
+			viewPage = "/include/message.jsp";
 		}
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

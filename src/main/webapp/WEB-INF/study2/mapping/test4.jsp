@@ -31,11 +31,11 @@
 	<div>전송메세지 : ${msg}</div>
 	<hr/>
 	<div>
-		<a href="list.do4" class="btn btn-success mr-3">연습List</a>
+		<a href="list.do4" class="btn btn-danger mr-3">연습List</a>
 		<a href="input.do4" class="btn btn-warning mr-3">연습Input</a>
 		<a href="update.do4" class="btn btn-info mr-3">연습Update</a>
-		<a href="delete.do4" class="btn btn-primary mr-3">연습Delete</a>
-		<a href="search.do4" class="btn btn-warning mr-3">연습Search</a>
+		<a href="delete.do4" class="btn btn-success mr-3">연습Delete</a>
+		<a href="search.do4" class="btn btn-primary mr-3">연습Search</a>
 	</div>
 	<!--
 	<div>

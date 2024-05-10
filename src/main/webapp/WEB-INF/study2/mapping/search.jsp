@@ -18,6 +18,7 @@
 	<h2>이곳은 search.jsp 입니다.</h2>
 	<hr/>
 	<div>
+		<a href="searchOk.do4" class="btn btn-info">검색</a>
 		<a href="test4.do4" class="btn btn-warning">돌아가기</a>
 	</div>
 </div>

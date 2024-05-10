@@ -1,4 +1,4 @@
-package study2.mapping;
+package member;
 
 import java.io.IOException;
 
@@ -6,8 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public interface Test4Interface {
+public interface MemberInterface {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
-	
-}
 
+}

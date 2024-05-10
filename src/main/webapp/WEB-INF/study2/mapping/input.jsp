@@ -18,7 +18,7 @@
 	<h2>이곳은 input.jsp 입니다.</h2>
 	<hr/>
 	<div>
-		<a href="inputOk.do4">회원가입하기</a>
+		<a href="inputOk.do4" class="btn btn-danger">회원가입하기</a>
 		<a href="test4.do4" class="btn btn-warning">돌아가기</a>
 	</div>
 </div>
