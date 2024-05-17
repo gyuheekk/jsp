@@ -15,23 +15,28 @@
 <jsp:include page="/include/nav.jsp" />
 <p><br/></p>
 <div class="container">
-  <h2>회원 전용방</h2>
+  <h2>회원 메인방</h2>
   <hr/>
   <!-- 실시간 채팅방(DB) -->
   <hr/>
-	<div>
-		<p>현재 <font color="blue"><b>${sNickName}</b></font> 님이 로그인중이십니다.</p>
-		<p>총 방문횟수 : __ 회</p>
-		<p>오늘 방문횟수 : __ 회</p>
-		<p>총 보유 포인트 : __ 점</p>
-	</div>  
-	<hr/>
-	<div>
-		<h5>활동내역</h5>
-		<p>방명록에 올린 글 수 : __ 건</p>
-		<p>게시판에 올린 글 수 : __ 건</p>
-		<p>자료실에 올린 글 수 : __ 건</p>
-	</div>
+  <div class="row">
+    <div class="col">
+	  	<p>현재 <b><font color="blue">${sNickName}</font>(<font color="red">${strLevel}</font>)</b> 님이 로그인 중이십니다.</p>
+	  	<p>총 방문횟수 : <b>${mVo.visitCnt}</b> 회</p>
+	  	<p>오늘 방문횟수 : <b>${mVo.todayCnt}</b> 회</p>
+	  	<p>총 보유 포인트 : <b>${mVo.point}</b> 점</p>
+  	</div>
+    <div class="col">
+      <p><img src="${ctp}/images/member/${mVo.photo}" width="200px"/></p>
+  	</div>
+  </div>
+  <hr/>
+  <div>
+    <h5>활동내역</h5>
+    <p>방명록에 올린글수 : <b>${guestCnt}</b> 건</p>  <!-- 방명록에 올린이가 '성명/아이디/닉네임'과 같은면 모두 같은 사람이 올린글로 간주한다. -->
+    <p>게사판에 올린글수 : ___건</p>
+    <p>자료실에 올린글수 : ___건</p>
+  </div>
 </div>
 <p><br/></p>
 <jsp:include page="/include/footer.jsp" />

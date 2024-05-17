@@ -17,6 +17,7 @@ public class GuestDAO {
 	
 	public GuestDAO() {
 		String url = "jdbc:mysql://localhost:3306/javaclass";
+//		String url = "jdbc:mysql://localhost:3306/testDB?useUnicode=true&charset=UTF8mb4";
 		String user = "root";
 		String password = "1234";
 		
@@ -62,7 +63,7 @@ public class GuestDAO {
 	public ArrayList<GuestVO> getGuestList(int startIndexNo, int pageSize) {
 		ArrayList<GuestVO> vos = new ArrayList<GuestVO>();
 		try {
-			sql = "select * from guest order by idx desc limit ?, ?"; // ? , ? (시작인덱스, 갯수)시작인덱스에서 갯수를 가져옴
+			sql = "select * from guest order by idx desc limit ?,?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, startIndexNo);
 			pstmt.setInt(2, pageSize);
@@ -124,7 +125,7 @@ public class GuestDAO {
 		return res;
 	}
 
-	// 방명록 글의 총 건수구하기
+	// 방명록글의 총 건수구하기
 	public int getTotRecCnt() {
 		int totRecCnt = 0;
 		try {
@@ -139,6 +140,36 @@ public class GuestDAO {
 			rsClose();
 		}
 		return totRecCnt;
+	}
+
+	// 로그인한 회원이 방명록에 올린글 리스트 가져오기
+	public ArrayList<GuestVO> getMemberGuestSearch(String mid, String name, String nickName) {
+		ArrayList<GuestVO> vos = new ArrayList<GuestVO>();
+		try {
+			sql = "select * from guest where name=? or name=? or name=? order by idx desc";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mid);
+			pstmt.setString(2, name);
+			pstmt.setString(3, nickName);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				vo = new GuestVO();
+				vo.setIdx(rs.getInt("idx"));
+				vo.setName(rs.getString("name"));
+				vo.setContent(rs.getString("content"));
+				vo.setEmail(rs.getString("email"));
+				vo.setHomePage(rs.getString("homePage"));
+				vo.setVisitDate(rs.getString("visitDate"));
+				vo.setHostIp(rs.getString("hostIp"));
+				vos.add(vo);
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
 	}
 	
 }

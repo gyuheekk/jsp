@@ -21,5 +21,4 @@ public class MemberIdCheckCommand implements MemberInterface {
 		
 		response.getWriter().write(str);
 	}
-
 }
