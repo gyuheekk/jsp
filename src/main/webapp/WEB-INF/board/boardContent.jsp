@@ -298,7 +298,7 @@
        			<a href="javascript:replyUpdate(${replyVo.idx})" class="icon"><i class="fa-solid fa-pen-to-square"></i></a>
        		</c:if>
        		<c:if test="${sMid != replyVo.mid && sLevel != 0}">
-       			<a href="javascript:limit" class="icon"><i class="fa-solid fa-comment-slash"></i></a>
+       			<a href="javascript:limit()" class="icon"><i class="fa-solid fa-comment-slash"></i></a>
        		</c:if>
        		<c:if test="${sMid == replyVo.mid || sLevel == 0}">
           	<a href="javascript:replyDelete(${replyVo.idx})" class="icon"><i class="fa-solid fa-trash"></i></a>

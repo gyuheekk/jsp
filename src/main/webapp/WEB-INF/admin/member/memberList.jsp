@@ -69,18 +69,76 @@
     	let ans = confirm("선택하신 회원을 영구 삭제 하시겠습니까?");
     	if(ans) {
     		$.ajax({
-    			url : "MemberDeleteOk.ad",
+    			url  : "MemberDeleteOk.ad",
     			type : "post",
     			data : {idx : idx},
-    			success : function(res) {
+    			success:function(res) {
     				if(res != "0") {
     					alert("영구 삭제 되었습니다.");
     					location.reload();
     				}
-    				else alert("삭제 실패");
+    				else alert("삭제 실패~~");
     			}
     		});
     	}
+    }
+    
+    // 전체선택
+    function allCheck() {
+      for(let i=0; i<myform.idxFlag.length; i++) {
+        myform.idxFlag[i].checked = true;
+      }
+    }
+
+    // 전체취소
+    function allReset() {
+      for(let i=0; i<myform.idxFlag.length; i++) {
+        myform.idxFlag[i].checked = false;
+      }
+    }
+
+    // 선택반전
+    function reverseCheck() {
+      for(let i=0; i<myform.idxFlag.length; i++) {
+        myform.idxFlag[i].checked = !myform.idxFlag[i].checked;
+      }
+    }
+    
+    // 선택항목 등급변경처리
+    function levelSelectCheck() {
+    	let select = document.getElementById("levelSelect");
+    	let levelSelectText = select.options[select.selectedIndex].text;
+    	let levelSelect = select.options[select.selectedIndex].value;
+    	// let levelSelect = document.getElementById("levelSelect").value;
+    	let idxSelectArray = '';
+    	
+      for(let i=0; i<myform.idxFlag.length; i++) {
+        if(myform.idxFlag[i].checked) idxSelectArray += myform.idxFlag[i].value + "/";
+      }
+    	if(idxSelectArray == '') {
+    		alert("등급을 변경할 항목을 1개 이상 선택하세요");
+    		return false;
+    	}
+    	
+      idxSelectArray = idxSelectArray.substring(0,idxSelectArray.lastIndexOf("/"));
+      let query = {
+    		  idxSelectArray : idxSelectArray,
+    		  levelSelect : levelSelect
+      }
+      
+      $.ajax({
+    	  url  : "MemberLevelSelectCheck.ad",
+    	  type : "post",
+    	  data : query,
+    	  success:function(res) {
+    		  if(res != "0") alert("선택한 항목들이 "+levelSelectText+"(으)로 변경되었습니다.");
+    		  else alert("등급변경 실패~");
+  			  location.reload();
+    	  },
+    	  error : function() {
+    		  alert("전송 실패~~");
+    	  }
+      });
     }
   </script>
 </head>
@@ -103,61 +161,92 @@
   <hr/>
   <div id="totalList">
 	  <h3 class="text-center">전체 회원 리스트</h3>
-	  <table class="table table-hover text-center">
-	    <tr class="table-dark text-dark">
-	      <th>번호</th>
-	      <th>아이디</th>
-	      <th>닉네임</th>
-	      <th>성명</th>
-	      <th>생일</th>
-	      <th>성별</th>
-	      <th>최종방문일</th>
-	      <th>오늘방문횟수</th>
-	      <th>활동여부</th>
-	      <th>현재레벨</th>
-	    </tr>
-	    <c:forEach var="vo" items="${vos}" varStatus="st">
-	      <c:if test="${vo.userInfor == '공개' || (vo.userInfor != '공개' && sLevel == 0)}">
-	        <c:if test="${vo.userDel == 'OK'}"><c:set var="active" value="탈퇴신청"/></c:if>
-	        <c:if test="${vo.userDel != 'OK'}"><c:set var="active" value="활동중"/></c:if>
-		      <tr>
-		      	<td>
-		      		<input type="checkbox" name="levelCheck" id="levelCheck"/>
-		        	${vo.idx}
-		      	</td>
-		        <td><a href="MemberSearch.mem?mid=${vo.mid}">${vo.mid}</a></td>
-		        <td>${vo.nickName}</td>
-		        <td>${vo.name}</td>
-		        <td>${fn:substring(vo.birthday,0,10)}</td>
-		        <td>${vo.gender}</td>
-		        <td>${fn:substring(vo.lastDate,0,10)}</td>
-		        <td>${vo.todayCnt}</td>
-		        <td>
-		          <c:if test="${vo.userDel == 'OK'}"><font color="red"><b>${active}</b></font></c:if>
-		          <c:if test="${vo.userDel != 'OK'}">${active}</c:if>
-		          <c:if test="${vo.deleteDiff >= 30 && vo.userDel == 'OK'}"><br/>
-		            (<a href="javascript:memberDeleteOk(${vo.idx})">30일경과</a>)
-		          </c:if>
-		        </td>
-		        <td>
-		          <c:if test="${vo.level != 0}">
-			          <form name="levelForm">
-			          	<select name="level" onchange="levelChange(this)">
-			          	  <option value="1/${vo.idx}" ${vo.level == 1   ? "selected" : ""}>준회원</option>
-			          	  <option value="2/${vo.idx}" ${vo.level == 2   ? "selected" : ""}>정회원</option>
-			          	  <option value="3/${vo.idx}" ${vo.level == 3   ? "selected" : ""}>우수회원</option>
-			          	  <option value="0/${vo.idx}" ${vo.level == 0   ? "selected" : ""}>관리자</option>
-			          	  <option value="99/${vo.idx}" ${vo.level == 99 ? "selected" : ""}>탈퇴신청회원</option>
-			          	</select>
-			          </form>
-		          </c:if>
-		          <c:if test="${vo.level == 0}">관리자</c:if>
-		        </td>
-		      </tr>
-	      </c:if>
-	    </c:forEach>
-	    <tr><td colspan="10" class="m-0 p-0"></td></tr>
-	  </table>
+	  <div class="row">
+	    <div class="col input-group">
+	      <input type="button" value="전체선택" onclick="allCheck()" class="btn btn-success btn-sm mr-1"/>
+	      <input type="button" value="전체취소" onclick="allReset()" class="btn btn-primary btn-sm mr-1"/>
+	      <input type="button" value="선택반전" onclick="reverseCheck()" class="btn btn-info btn-sm mr-1"/>
+		    <div class="input-group-append">
+		      <select name="levelSelect" id="levelSelect">
+		        <option value="2">정회원</option>
+		        <option value="1">준회원</option>
+		        <option value="3">우수회원</option>
+		      </select>
+		      <div class="input-group-append"><input type="button" value="선택항목등급변경" onclick="levelSelectCheck()" class="btn btn-warning btn-sm" /></div>
+		    </div>
+	    </div>
+	    <div class="col text-right">
+			  <!-- 페이지처리 시작(이전/다음) -->
+  	    <c:if test="${pag > 1}">
+  	    	<a href="${ctp}/MemberList.ad?pag=1&pageSize=${pageSize}" title="첫페이지">◁◁</a>
+  	    	<a href="${ctp}/MemberList.ad?pag=${pag-1}&pageSize=${pageSize}" title="이전페이지">◀</a>
+  	    </c:if>
+  	    ${pag}/${totPage}
+  	    <c:if test="${pag < totPage}">
+  	    	<a href="${ctp}/MemberList.ad?pag=${pag+1}&pageSize=${pageSize}" title="다음페이지">▶</a>
+  	    	<a href="${ctp}/MemberList.ad?pag=${totPage}&pageSize=${pageSize}" title="마지막페이지">▷▷</a>
+  	    </c:if>
+	  	  <!-- 페이지처리 끝(이전/다음) -->
+	    </div>
+    </div>
+    <form name="myform">
+		  <table class="table table-hover text-center mt-1">
+		    <tr class="table-dark text-dark">
+		      <th>번호</th>
+		      <th>아이디</th>
+		      <th>닉네임</th>
+		      <th>성명</th>
+		      <th>생일</th>
+		      <th>성별</th>
+		      <th>최종방문일</th>
+		      <th>오늘방문횟수</th>
+		      <th>활동여부</th>
+		      <th>현재레벨</th>
+		    </tr>
+		    <c:forEach var="vo" items="${vos}" varStatus="st">
+		      <c:if test="${vo.userInfor == '공개' || (vo.userInfor != '공개' && sLevel == 0)}">
+		        <c:if test="${vo.userDel == 'OK'}"><c:set var="active" value="탈퇴신청"/></c:if>
+		        <c:if test="${vo.userDel != 'OK'}"><c:set var="active" value="활동중"/></c:if>
+			      <tr>
+			        <td>
+			          <c:if test="${vo.level != 0}"><input type="checkbox" name="idxFlag" id="idxFlag${vo.idx}" value="${vo.idx}"/></c:if>
+			          <c:if test="${vo.level == 0}"><input type="checkbox" name="idxFlag" id="idxFlag${vo.idx}" value="${vo.idx}" disabled /></c:if>
+			          ${vo.idx}
+			        </td>
+			        <td><a href="MemberSearch.mem?mid=${vo.mid}">${vo.mid}</a></td>
+			        <td>${vo.nickName}</td>
+			        <td>${vo.name}</td>
+			        <td>${fn:substring(vo.birthday,0,10)}</td>
+			        <td>${vo.gender}</td>
+			        <td>${fn:substring(vo.lastDate,0,10)}</td>
+			        <td>${vo.todayCnt}</td>
+			        <td>
+			          <c:if test="${vo.userDel == 'OK'}"><font color="red"><b>${active}</b></font></c:if>
+			          <c:if test="${vo.userDel != 'OK'}">${active}</c:if>
+			          <c:if test="${vo.userDel == 'OK' && vo.deleteDiff >= 30}"><br/>
+			            (<a href="javascript:memberDeleteOk(${vo.idx})">30일경과</a>)
+			          </c:if>
+			        </td>
+			        <td>
+		            <c:if test="${vo.level != 0}">
+				          <!-- <form name="levelForm"> -->
+				          	<select name="level" id="level" onchange="levelChange(this)">
+				          	  <option value="1/${vo.idx}"  ${vo.level == 1  ? "selected" : ""}>준회원</option>
+				          	  <option value="2/${vo.idx}"  ${vo.level == 2  ? "selected" : ""}>정회원</option>
+				          	  <option value="3/${vo.idx}"  ${vo.level == 3  ? "selected" : ""}>우수회원</option>
+				          	  <option value="0/${vo.idx}"  ${vo.level == 0  ? "selected" : ""}>관리자</option>
+				          	  <option value="99/${vo.idx}" ${vo.level == 99 ? "selected" : ""}>탈퇴신청회원</option>
+				          	</select>
+				          <!-- </form> -->
+		          	</c:if>
+		          	<c:if test="${vo.level == 0}">관리자</c:if>
+			        </td>
+			      </tr>
+		      </c:if>
+		    </c:forEach>
+		    <tr><td colspan="10" class="m-0 p-0"></td></tr>
+		  </table>
+    </form>
   </div>
   <div id="userDispaly">
     <c:if test="${sLevel == 0}">
@@ -191,6 +280,21 @@
 		  </table>
 	  </c:if>
   </div>
+  <br/>
+	<!-- 블록페이지 시작(1블록의 크기를 3개(3Page)로 한다. -->
+	<div class="text-center">
+	  <ul class="pagination justify-content-center">
+	    <c:if test="${pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/MemberList.ad?pag=1&pageSize=${pageSize}">첫페이지</a></li></c:if>
+	  	<c:if test="${curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/MemberList.ad?pag=${(curBlock-1)*blockSize+1}&pageSize=${pageSize}">이전블록</a></li></c:if>
+	  	<c:forEach var="i" begin="${(curBlock*blockSize)+1}" end="${(curBlock*blockSize)+blockSize}" varStatus="st">
+		    <c:if test="${i <= totPage && i == pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="${ctp}/MemberList.ad?pag=${i}&pageSize=${pageSize}">${i}</a></li></c:if>
+		    <c:if test="${i <= totPage && i != pag}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/MemberList.ad?pag=${i}&pageSize=${pageSize}">${i}</a></li></c:if>
+	  	</c:forEach>
+	  	<c:if test="${curBlock < lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/MemberList.ad?pag=${(curBlock+1)*blockSize+1}&pageSize=${pageSize}">다음블록</a></li></c:if>
+	  	<c:if test="${pag < totPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/MemberList.ad?pag=${totPage}&pageSize=${pageSize}">마지막페이지</a></li></c:if>
+	  </ul>
+	</div>
+	<!-- 블록페이지 끝 -->
 </div>
 <p><br/></p>
 </body>

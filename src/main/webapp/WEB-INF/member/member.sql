@@ -29,10 +29,45 @@ create table member (
   primary key (idx),
   unique(mid)
 );
-desc member;
+desc memder;
 
 insert into member values (default,'admin','1234','관리맨','관리자','남자',default,'010-1234-4567','050/서울시/그린아파트/100동/101호','abc@atom.com','http://www.atom.com','학생','등산',default,'관리자입니다.',default,default,default,default,default,default,default,default)
 
 select * from member;
 
 select lastDate, now(), timestampdiff(day, lastDate, now()) as deleteDiff from member;
+
+/* 실시간 DB채팅 테이블 설계 */
+create table memberChat (
+	idx int not null auto_increment primary key,
+	nickName varchar(20) not null,
+	chat varchar(100) not null
+);
+desc memberChat;
+
+insert into memberChat values (default, 'admin', '으아익');
+insert into memberChat values (default, 'admin', '배고픈디');
+insert into memberChat values (default, 'xkralsdk', '언니');
+insert into memberChat values (default, 'kh010129', '왜 애');
+insert into memberChat values (default, 'hkd1234', '히이이이익');
+insert into memberChat values (default, 'hkd1234', '안녕1');
+insert into memberChat values (default, 'atom', '안녕2');
+insert into memberChat values (default, 'btom', '안녕3');
+insert into memberChat values (default, 'ctom', '안녕4');
+insert into memberChat values (default, 'atom', '안녕5');
+insert into memberChat values (default, 'atom', '안녕6');
+insert into memberChat values (default, 'ctom', '안녕7');
+insert into memberChat values (default, 'btom', '안녕8');
+insert into memberChat values (default, 'btom', '안녕9');
+insert into memberChat values (default, 'hkd1234', '안녕10');
+insert into memberChat values (default, 'admin', '안녕11');
+insert into memberChat values (default, 'admin', '안녕12');
+insert into memberChat values (default, 'xkralsdk', '안녕13');
+insert into memberChat values (default, 'xkralsdk', '안녕14');
+insert into memberChat values (default, 'xkralsdk', '안녕15');
+insert into memberChat values (default, 'hkd1234', '안녕16');
+insert into memberChat values (default, 'hkd1234', '안녕17');
+insert into memberChat values (default, 'hkd1234', '안녕18');
+
+select * from memberChat order by idx desc limit 20;
+select m.* from (select * from memberChat order by idx desc limit 20) m order by idx;
