@@ -84,6 +84,7 @@
       </td>
     </tr>
   </table>
+  
   <table class="table table-hover text-center">
     <tr class="table-dark text-dark">
       <th>번호</th>

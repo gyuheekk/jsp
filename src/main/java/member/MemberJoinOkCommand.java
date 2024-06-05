@@ -94,7 +94,6 @@ public class MemberJoinOkCommand implements MemberInterface {
 		vo.setUserInfor(userInfor);
 		
 		int res = dao.setMemberJoinOk(vo);
-		System.out.println("vo : " + vo);
 		if(res != 0) {
 			request.setAttribute("message", "회원 가입되셨습니다.\\n다시 로그인해 주세요.");
 			request.setAttribute("url", "MemberLogin.mem");
